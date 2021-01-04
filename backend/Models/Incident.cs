@@ -5,7 +5,7 @@ namespace backend.Models
     {
         public Incident() { }
 
-        public Incident(int id, string title, string description, double value, Ong ongId)
+        public Incident(int id, string title, string description, double value, int ongId)
         {
             this.Id = id;
             this.Title = title;
@@ -18,7 +18,7 @@ namespace backend.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public double Value { get; set; }
-        public Ong OngId { get; set; }
+        public int OngId { get; set; }
         public Ong Ong { get; set; }
     }
 }

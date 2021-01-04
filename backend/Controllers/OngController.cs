@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
+using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,43 +9,24 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class OngController : ControllerBase
     {
+        private readonly DataContext _context;
 
-        public List<Ong> Ongs = new List<Ong>(){
-            new Ong(){
-                Id = 1,
-                Name = "APAE",
-                Email = "contato@apae.com.br",
-                City = "Mongaguá",
-                Uf = "SP"
-            },new Ong(){
-                Id = 2,
-                Name = "Estrela da Mama",
-                Email = "contato@estreladamama.com.br",
-                City = "Praia Grande",
-                Uf = "SP"
-            },
-        };
-        public OngController(){}
+        public OngController(DataContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(Ongs);
+            return Ok(_context.Ongs);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id){
-
-            var ong = Ongs.FirstOrDefault( o => o.Id == id);
-
-            if(ong == null) return BadRequest("Ong não encontrada");
-
+        [HttpPost]
+        public IActionResult Create(Ong ong){
+            _context.Add(ong);
+            _context.SaveChanges();
             return Ok(ong);
-        }
-
-        [HttpPut]
-        public IActionResult Create(){
-            return Ok("create");
         }
     }
 }
